@@ -2,7 +2,6 @@ package mini_java.parser;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
@@ -23,33 +22,29 @@ import java.util.TreeMap;
 
 public class Parser {
 	
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		
-		//System.setOut(new PrintStream("log.txt"));
+		System.setOut(new PrintStream("log.txt"));
 		
-		File file = new File("./bin/mini_java/parser/HelloWorld.class");
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String path = "D:\\Codes\\Eclipse\\java coding\\min_jre\\bin\\java\\lang\\HelloWorld.class";
+		String fileName = new File(path).getName();
+		String folder = new File(path).getParent();
+		
+		new Parser(Files.readAllBytes(Paths.get(path)));
+		
+		for(String f: new File(folder).list()) {
+			if(f.equals(fileName)) continue;
+			new Parser(Files.readAllBytes(Paths.get(folder+"/"+f)));
 		}
-
-        byte[] bytesArray = new byte[(int) file.length()];
-        try {
-			fis.read(bytesArray);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-		new Parser(bytesArray);
+		
+		System.out.println(Parser.getCCode());
 	}
 	
 	
 	
 	private static StringBuffer declarations = new StringBuffer();
+	
+	private static StringBuffer declarations2 = new StringBuffer();
 	
 	private static StringBuffer codes = new StringBuffer();
 	
@@ -59,6 +54,11 @@ public class Parser {
 		declarations.append("#include <stdbool.h>\n");
 		declarations.append("#include <stdlib.h>\n");
 		declarations.append("#include <stdarg.h>\n");
+		declarations.append("#include <string.h>\n");
+		declarations.append("#include <wchar.h>\n");
+		declarations.append("#include <locale.h>\n");
+		declarations.append("#include <time.h>\n");
+		main.insert(0, "setlocale(LC_CTYPE, \"\");\n");
 		declarations.append("\n");
 		
 		declarations.append("typedef char jbyte;\n");
@@ -67,32 +67,30 @@ public class Parser {
 		declarations.append("typedef long long jlong;\n");
 		declarations.append("typedef float jfloat;\n");
 		declarations.append("typedef double jdouble;\n");
-		declarations.append("typedef long int jchar;\n");
+		declarations.append("typedef wchar_t jchar;\n");
 		declarations.append("typedef char jboolean;\n");
 		declarations.append("typedef void (*Function)();\n");
 		declarations.append("struct jinfo{struct jinfo* parent; Function* funcs; int* index; int count;};\n");
 		declarations.append("#define "+toCName("zeechung/minijava/Object")+"_fields struct jinfo* info;\n");
 		declarations.append("typedef struct {"+toCName("zeechung/minijava/Object")+"_fields}* "+toCName("zeechung/minijava/Object")+";\n");
+		declarations.append("#define zeechung_d_minijava_d_Object_info jnull\n");
 		declarations.append("typedef "+toCName("zeechung/minijava/Object")+" jobject;\n");
 		declarations.append("typedef union{jint INT; jlong LONG; jfloat FLOAT; jdouble DOUBLE; jbyte BYTE; jshort SHORT; jboolean BOOLEAN; jobject OBJECT; jchar CHAR;} slot;\n");
 		declarations.append("#define "+toCName("zeechung/minijava/Array")+"_fields slot* base; int length;\n");
-		declarations.append("#define "+toCName("zeechung/minijava/String")+"_fields jchar* base;\n");
 		declarations.append("typedef struct "+toCName("zeechung/minijava/Array")+" {"+toCName("zeechung/minijava/Object")+"_fields "+toCName("zeechung/minijava/Array")+"_fields}* "+toCName("zeechung/minijava/Array")+";\n");
-		declarations.append("typedef struct "+toCName("zeechung/minijava/String")+" {"+toCName("zeechung/minijava/Object")+"_fields "+toCName("zeechung/minijava/String")+"_fields}* "+toCName("zeechung/minijava/String")+";\n");
 		declarations.append("typedef "+toCName("zeechung/minijava/Array")+" jarray;\n");
-		declarations.append("typedef "+toCName("zeechung/minijava/String")+" jstring;\n");
 		declarations.append("#define jnull NULL\n");
 		declarations.append("\n");
 		
-		declarations.append("#define InitStack(x) int stack_len = x; slot stack[x]; int stack_top = stack_len - 1;\n");
-		declarations.append("#define PushData(data, type) stack_top = (stack_top+1)%stack_len; stack[stack_top].type = data;\n");
-		declarations.append("#define PushSlot(slot) stack_top = (stack_top+1)%stack_len; stack[stack_top] = slot;\n");
-		declarations.append("#define PopData(data, type) data = stack[stack_top].type; stack_top = (stack_len+stack_top-1)%stack_len;\n");
-		declarations.append("#define PopSlot(slot) slot = stack[stack_top]; stack_top = (stack_len+stack_top-1)%stack_len;\n");
+		declarations.append("#define InitStack(x) int stack_len = x; slot stack[x]; int stack_top = -1;\n");
+		declarations.append("#define PushData(data, type) stack_top++; stack[stack_top].type = data;\n");
+		declarations.append("#define PushSlot(slot) stack_top++; stack[stack_top] = slot;\n");
+		declarations.append("#define PopData(data, type) data = stack[stack_top].type; stack_top--;\n");
+		declarations.append("#define PopSlot(slot) slot = stack[stack_top]; stack_top--;\n");
 		declarations.append("#define StackTop() (stack[stack_top])\n");
-		declarations.append("#define StackOffset(offset) (stack[(stack_top-offset+stack_len)%stack_len])\n");
-		declarations.append("#define IncStack(x) stack_top=(stack_top+x)%stack_len;\n");
-		declarations.append("#define DecStack(x) stack_top=(stack_top-x+stack_len)%stack_len;\n");
+		declarations.append("#define StackOffset(offset) (stack[stack_top-offset])\n");
+		declarations.append("#define IncStack(x) stack_top=stack_top+x;\n");
+		declarations.append("#define DecStack(x) stack_top=stack_top-x;\n");
 		declarations.append("\n");
 		
 		declarations.append("jarray NewArray(int length){\n");
@@ -102,20 +100,6 @@ public class Parser {
 		declarations.append("	arr->length = length;\n");
 		declarations.append("	return arr;\n");
 		declarations.append("}\n");
-		declarations.append("\n");
-		
-		declarations.append("jstring ToString(int len, ...) {\r\n"
-						  + "	va_list args;\r\n"
-						  + "	va_start(args, len);\r\n"
-						  + "	jchar* str = (jchar*)malloc(sizeof(jchar) * len);\r\n"
-						  + "	for (int i = 0; i < len; i++) {\r\n"
-						  + "		str[i] = va_arg(args, jchar);\r\n"
-						  + "	}\r\n"
-						  + "	jstring re = (jstring)malloc(sizeof(struct "+toCName("zeechung/minijava/String")+"));\r\n"
-						  + "	re->info = jnull;\r\n"
-						  + "	re->base = str;\r\n"
-						  + "	return re;\r\n"
-						  + "}");
 		declarations.append("\n");
 		
 		declarations.append("Function FetchMethod(struct jinfo* info, int target){\r\n"
@@ -140,11 +124,52 @@ public class Parser {
 						  + "#define InvokeMethod(obj, idx, type, ...) (((type)FetchMethod(obj->info, idx))(__VA_ARGS__))\n\n");
 		
 		try {
+			for(String ln:Files.readAllLines(Paths.get("zeechung.minijava.Native.decl"))) {
+				declarations.append(ln+"\n");
+			}
+			
+			for(String ln:Files.readAllLines(Paths.get("zeechung.minijava.Native.def"))) {
+				codes.append(ln+"\n");
+			}
+		} catch (IOException e1) {}
+		
+		codes.append(toCName("java/lang/String")+" ToString(jchar* chars){\r\n"
+				  + "	jarray arr = (jarray)malloc(sizeof(struct "+toCName("zeechung/minijava/Array")+"));\r\n"
+				  + "	arr->info = jnull;\r\n"
+				  + "	int len = wcslen(chars);\r\n"
+				  + "	arr->length = len;\n"
+				  + "	slot* base = (slot*)malloc(sizeof(slot)*(len+1));\r\n"
+				  + "	for(int i=0;i<len;i++){\r\n"
+				  + "		base[i].CHAR = chars[i];\r\n"
+				  + "	}\r\n"
+				  + "	arr->base = base;\r\n"
+				  + "	\r\n"
+				  + "	"+toCName("java/lang/String")+" string = ("+toCName("java/lang/String")+") malloc(sizeof(struct "+toCName("java/lang/String")+"));\r\n"
+				  + "	string->info = "+toCName("java/lang/String")+"_info;\r\n"
+				  + "	string->value = arr;\r\n"
+				  + "	\r\n"
+				  + "	return string;\r\n"
+				  + "}\n\n ");
+		
+		try {
 			opCodes = Files.readAllLines(Paths.get("opCodes.txt"), StandardCharsets.US_ASCII);
 		} catch (IOException e) {}
 	}
 	
 	private static List<String> opCodes;
+	
+	public static String getCCode() {
+		String re =  declarations.toString()+"\n"
+				   + declarations2.toString()+"\n"
+				   + codes.toString() + "\n"
+				   + "int main(){\n"+main+"}";
+		declarations = new StringBuffer();
+		declarations2 = new StringBuffer();
+		codes = new StringBuffer();
+		main = new StringBuffer();
+		
+		return re;
+	}
 	
 	
 	
@@ -189,9 +214,9 @@ public class Parser {
 		
 		parseMain();
 		
-		System.out.println(declarations);
-		System.out.println(codes);
-		System.out.println("int main(){\n"+main+"}");
+		//System.out.println(declarations);
+		//System.out.println(codes);
+		//System.out.println("int main(){\n"+main+"}");
 	}
 
 	private void parseMagic() {	//½âÎöÄ§Êý
@@ -305,20 +330,20 @@ public class Parser {
 			}
 			if(isStatic(access)) {
 				String fullName = toCName(getClass(clazz))+"_static_"+name;
-				if(desc.length()==1||desc.equals("Ljava/lang/String;")) {
+				if(desc.length()==1) {
 					declarations.append(decodeDesc(desc)+" "+fullName+";\n");
 				}else {
 					declarations.append("jobject "+fullName+";\n");
 				}
 				if(valIdx!=-1) {
 					if(desc.equals("J")) {
-						codes.append(fullName+" = "+getLong(valIdx)+";\n");
+						codes.append("jlong"+fullName+" = "+getLong(valIdx)+"L;\n");
 					}else if(desc.equals("F")) {
-						codes.append(fullName+" = "+Float.toString(getFloat(valIdx))+";\n");
+						codes.append("jfloat"+fullName+" = "+Float.toString(getFloat(valIdx))+"f;\n");
 					}else if(desc.equals("D")) {
-						codes.append(fullName+" = "+Double.toString(getDouble(valIdx))+";\n");
+						codes.append("jdouble"+fullName+" = "+Double.toString(getDouble(valIdx))+";\n");
 					}else if(desc.equals("Ljava/lang/String;")) {
-						codes.append(fullName+" = \""+getString(valIdx)+"\";\n");
+						codes.append(fullName+" = ToString(L\""+getString(valIdx)+"\");\n");
 					}else {
 						codes.append(fullName+" = "+getInt(valIdx)+";\n");
 					}
@@ -333,9 +358,10 @@ public class Parser {
 		}
 		
 		declarations.append("#define "+toCName(getClass(clazz))+"_fields ");
+		declarations.append(" "+toCName(getClass(parent))+"_fields ");
 		declarations.append(members);
 		declarations.append("\n");
-		codes.append("typedef struct "+toCName(getClass(clazz))+" {"+toCName(getClass(parent))+"_fields\n"+toCName(getClass(clazz))+"_fields}* "+toCName(getClass(clazz))+";\n\n");
+		declarations2.append("typedef struct "+toCName(getClass(clazz))+" {"+toCName(getClass(clazz))+"_fields}* "+toCName(getClass(clazz))+";\n\n");
 	}
 	
 	private String methodName;
@@ -353,8 +379,11 @@ public class Parser {
 		
 		int count = nextU2();
 		for(int i=0;i<count;i++) {
-			isStatic = isStatic(nextU2());
+			int modifier = nextU2();
+			isStatic = isStatic(modifier);
+			boolean isVirtual = isVirtual(modifier);
 			methodName = getUTF8(nextU2());
+			boolean isStaticBlock = methodName.equals("<clinit>");
 			methodDesc = getUTF8(nextU2());
 			if(!stringIds.contains(methodName+methodDesc)) stringIds.add(methodName+methodDesc);
 			info.put(stringIds.indexOf(methodName+methodDesc), methodName+methodDesc);
@@ -371,6 +400,10 @@ public class Parser {
 					int len = nextU4();
 					idx+=len;
 				}
+			}
+			
+			if(isStaticBlock) {
+				main.insert(0, methodName+toCName(methodDesc)+"();\n");
 			}
 		}
 		
@@ -392,7 +425,7 @@ public class Parser {
 		declarations.append("struct jinfo* "+toCName(getClass(clazz))+"_info;\n");
 		declarations.append("struct jinfo "+toCName(getClass(clazz))+"_infobase = {jnull, &"+toCName(getClass(clazz))+"_funcs, &"+toCName(getClass(clazz))+"_funcsidx, "+info.size()+"};\n");
 		declarations.append("struct jinfo* "+toCName(getClass(clazz))+"_info = &"+toCName(getClass(clazz))+"_infobase;\n");
-		main.append(toCName(getClass(clazz))+"_info->parent = "+toCName(getClass(parent))+"_info;\n");
+		main.insert(0, toCName(getClass(clazz))+"_info->parent = "+toCName(getClass(parent))+"_info;\n");
 	}
 	
 	private String parseCode() {
@@ -404,7 +437,7 @@ public class Parser {
 		code.append(method+"{\n");
 		
 		int stack = nextU2();
-		code.append("\t\tInitStack("+stack+");\n\t\t");
+		if(stack>0) code.append("\t\tInitStack("+stack+");\n\t\t");
 		int locals = nextU2();
 		for(int i=0;i<locals;i++) {
 			code.append("slot local"+i+"; ");
@@ -479,12 +512,7 @@ public class Parser {
 					}else {
 						type = "OBJECT";
 						String str = (String) constantPool.get(((int[])o)[0]);
-						String chars = "";
-						for(int c: str.toCharArray()) {
-							chars += (c + ", ");
-						}
-						chars += 0;
-						value = "(jobject) ToString("+(str.length()+1)+", "+chars+")";
+						value = str==null?"jnull":"ToString(L\""+str+"\")";
 					}
 				}else {
 					Object o = constantPool.get(nextU2());
@@ -537,7 +565,7 @@ public class Parser {
 				case 'Z': desc="BOOLEAN"; break;
 				default : desc="OBJECT"; break;
 				}
-				line = line.replace("TYPE", desc).replace("FIELD", name).replace("CLASS", clazz);
+				line = line.replace("TYPE", desc).replace("FIELD", name).replace("CLASS", toCName(clazz));
 			}else if(op>=182&&op<=185) {	//method invocation
 				if(op!=184) {
 					int index = nextU2();
@@ -565,7 +593,10 @@ public class Parser {
 				}
 			}else if(op==187) {	//new
 				int index = nextU2();
-				line = line.replace("CLASS", getClass(index));
+				line = line.replace("CLASS", toCName(getClass(index)));
+			}else if(op==193) {
+				int index = nextU2();
+				line = line.replace("CLASS", toCName(getClass(index)));
 			}else if(op==201) {	//U4
 				line = line.replace("U4", Integer.toString(nextU4()));
 			}else if(op==170||op==171) {	//switch
@@ -627,6 +658,7 @@ public class Parser {
 	
 	
 	private String getClass(int clazz) {
+		if(clazz==0) return "zeechung/minijava/Object";
 		return (String) constantPool.get((int) constantPool.get(clazz));
 	}
 	
@@ -658,6 +690,13 @@ public class Parser {
 	
 	private boolean isStatic(int access) {
 		if((0b00000000000000000000000000001000 & access) != 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isVirtual(int access) {
+		if((0x00000400 & access) != 0) {
 			return true;
 		}
 		return false;
@@ -743,7 +782,7 @@ public class Parser {
 		
 		typeFunc = typeFunc.replace("RE", re).replace("ARGS", args.toString());
 		
-		varArgs.setCharAt(varArgs.length()-1, ' ');
+		if(argsCount>=1) varArgs.setCharAt(varArgs.length()-1, ' ');
 		
 		return new String[] {typeRe, typeFunc, varArgs.toString(), ""+argsCount};
 	}
@@ -757,7 +796,7 @@ public class Parser {
 			re.append("jobject ");
 		}else {
 			switch(reDesc.charAt(0)) {
-			case 'V': re.append("void "); break;
+			case 'V': re.append("int "); break;
 			case 'B': re.append("jbyte "); break;
 			case 'C': re.append("jchar "); break;
 			case 'D': re.append("jdouble "); break;

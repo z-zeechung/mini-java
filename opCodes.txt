@@ -44,14 +44,14 @@ PushSlot(local0);	// 42 aload_0
 PushSlot(local1);	// 43 aload_1
 PushSlot(local2);	// 44 aload_2
 PushSlot(local3);	// 45 aload_3
-PopSlot(opslot1); PopSlot(opslot2); opslot3 = (jarray)(opslot1.OBJECT).base[opslot2.INT]; PushSlot(opslot3);	// 46 iaload
-PopSlot(opslot1); PopSlot(opslot2); opslot3 = (jarray)(opslot1.OBJECT).base[opslot2.INT]; PushSlot(opslot3);	// 47 laload
-PopSlot(opslot1); PopSlot(opslot2); opslot3 = (jarray)(opslot1.OBJECT).base[opslot2.INT]; PushSlot(opslot3);	// 48 faload
-PopSlot(opslot1); PopSlot(opslot2); opslot3 = (jarray)(opslot1.OBJECT).base[opslot2.INT]; PushSlot(opslot3);	// 49 daload
-PopSlot(opslot1); PopSlot(opslot2); opslot3 = (jarray)(opslot1.OBJECT).base[opslot2.INT]; PushSlot(opslot3);	// 50 aaload
-PopSlot(opslot1); PopSlot(opslot2); opslot3 = (jarray)(opslot1.OBJECT).base[opslot2.INT]; PushSlot(opslot3);	// 51 baload
-PopSlot(opslot1); PopSlot(opslot2); opslot3 = (jarray)(opslot1.OBJECT).base[opslot2.INT]; PushSlot(opslot3);	// 52 caload
-PopSlot(opslot1); PopSlot(opslot2); opslot3 = (jarray)(opslot1.OBJECT).base[opslot2.INT]; PushSlot(opslot3);	// 53 saload
+PopSlot(opslot1); PopSlot(opslot2); opslot3 = (*(jarray)(opslot1.OBJECT)).base[opslot2.INT]; PushSlot(opslot3);	// 46 iaload
+PopSlot(opslot1); PopSlot(opslot2); opslot3 = (*(jarray)(opslot1.OBJECT)).base[opslot2.INT]; PushSlot(opslot3);	// 47 laload
+PopSlot(opslot1); PopSlot(opslot2); opslot3 = (*(jarray)(opslot1.OBJECT)).base[opslot2.INT]; PushSlot(opslot3);	// 48 faload
+PopSlot(opslot1); PopSlot(opslot2); opslot3 = (*(jarray)(opslot1.OBJECT)).base[opslot2.INT]; PushSlot(opslot3);	// 49 daload
+PopSlot(opslot1); PopSlot(opslot2); opslot3 = (*(jarray)(opslot1.OBJECT)).base[opslot2.INT]; PushSlot(opslot3);	// 50 aaload
+PopSlot(opslot1); PopSlot(opslot2); opslot3 = (*(jarray)(opslot1.OBJECT)).base[opslot2.INT]; PushSlot(opslot3);	// 51 baload
+PopSlot(opslot1); PopSlot(opslot2); opslot3 = (*(jarray)(opslot1.OBJECT)).base[opslot2.INT]; PushSlot(opslot3);	// 52 caload
+PopSlot(opslot1); PopSlot(opslot2); opslot3 = (*(jarray)(opslot1.OBJECT)).base[opslot2.INT]; PushSlot(opslot3);	// 53 saload
 PopSlot(localU1);	// 54 istore, U1 is to be determinated
 PopSlot(localU1);	// 55 lstore, U1 is to be determinated
 PopSlot(localU1);	// 56 fstore, U1 is to be determinated
@@ -77,15 +77,15 @@ PopSlot(local0);	// 75 astore_0
 PopSlot(local1);	// 76 astore_1
 PopSlot(local2);	// 77 astore_2
 PopSlot(local3);	// 78 astore_3
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (jarray)(opslot1.OBJECT).base[opslot2.INT] = opslot3;	// 79 iastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (jarray)(opslot1.OBJECT).base[opslot2.INT] = opslot3;	// 80 lastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (jarray)(opslot1.OBJECT).base[opslot2.INT] = opslot3;	// 81 fastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (jarray)(opslot1.OBJECT).base[opslot2.INT] = opslot3;	// 82 dastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (jarray)(opslot1.OBJECT).base[opslot2.INT] = opslot3;	// 83 aastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (jarray)(opslot1.OBJECT).base[opslot2.INT] = opslot3;	// 84 bastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (jarray)(opslot1.OBJECT).base[opslot2.INT] = opslot3;	// 85 castore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (jarray)(opslot1.OBJECT).base[opslot2.INT] = opslot3;	// 86 sastore
-TODO	// 87 pop
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 79 iastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 80 lastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 81 fastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 82 dastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 83 aastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 84 bastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 85 castore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 86 sastore
+PopSlot(opslot1);	// 87 pop
 TODO	// 88 pop2
 PopSlot(opslot1); PushSlot(opslot1); PushSlot(opslot1);	// 89 dup
 PopSlot(opslot2); PopSlot(opslot1); PushSlot(opslot1); PushSlot(opslot2); PushSlot(opslot1);	// 90 dup_x1
@@ -118,10 +118,10 @@ StackTop().INT = -StackTop().INT;	// 116 ineg
 StackTop().LONG = -StackTop().LONG;	// 117 lneg
 StackTop().FLOAT = -StackTop().FLOAT;	// 118 fneg
 StackTop().DOUBLE = -StackTop().DOUBLE;	// 119 dneg
-StackOffset(1).INT = StackTOP().INT << StackOffset(1).INT; DecStack(1);	// 120 ishl
-StackOffset(1).LONG = StackTOP().LONG << StackOffset(1).INT; DecStack(1);	// 121 lshl
-StackOffset(1).INT = StackTOP().INT >> StackOffset(1).INT; DecStack(1);	// 122 ishr, I'm not sure wether this will perform arithmetic shift or logical shift. most compilers perform arithmetic shift. TODO: figure out how to limit this behavior
-StackOffset(1).LONG = StackTOP().LONG >> StackOffset(1).INT; DecStack(1);	// 123 lshr
+StackOffset(1).INT = StackTop().INT << StackOffset(1).INT; DecStack(1);	// 120 ishl
+StackOffset(1).LONG = StackTop().LONG << StackOffset(1).INT; DecStack(1);	// 121 lshl
+StackOffset(1).INT = StackTop().INT >> StackOffset(1).INT; DecStack(1);	// 122 ishr, I'm not sure wether this will perform arithmetic shift or logical shift. most compilers perform arithmetic shift. TODO: figure out how to limit this behavior
+StackOffset(1).LONG = StackTop().LONG >> StackOffset(1).INT; DecStack(1);	// 123 lshr
 StackOffset(1).INT = (unsigned long int)StackTOP().INT >> StackOffset(1).INT; DecStack(1);	// 124 iushr, I'm quiet sure this would perform logical shift
 StackOffset(1).LONG = (unsigned long long)StackTOP().LONG >> StackOffset(1).INT; DecStack(1);	// 125 lushr
 StackOffset(1).INT &= StackTop().INT; DecStack(1);	// 126 iand
@@ -178,20 +178,20 @@ PopSlot(opslot1); return opslot1.OBJECT;	// 176 areturn
 return 0;	// 177 return
 StackTop().TYPE = FIELD;	// 178 getstatic, FIELD and TYPE are to be determined
 FIELD = StackTop().TYPE; DecStack(1);	// 179 putstatic, FIELD and TYPE are to be determined
-StackTop().TYPE = (CLASS)(StackTop().OBJECT)->FIELD;	// 180 getfield, CLASS, FIELD and TYPE are to be determined
-(CLASS)(StackTop().OBJECT)->FIELD = StackOffset(1).TYPE; DecStack(2);	// 181 putfield, CLASS, FIELD and TYPE are to be determined
+StackTop().TYPE = ((CLASS)(StackTop().OBJECT))->FIELD;	// 180 getfield, CLASS, FIELD and TYPE are to be determined
+((CLASS)(StackTop().OBJECT))->FIELD = StackOffset(1).TYPE; DecStack(2);	// 181 putfield, CLASS, FIELD and TYPE are to be determined
 TO BE FILLED	// 182 invokevirtual
 TO BE FILLED	// 183 invokespecial
 TO BE FILLED	// 184 invokestatic
 TO BE FILLED	// 185 invokeinterface
 186
-opslot1.OBJECT = (jobject)malloc(sizeof(struct CLASS)); opslot1.OBJECT->info = (jinfo)CLASS_info; PushSlot(opslot1);	// 187 new, CLASS is to be determined
+opslot1.OBJECT = (jobject)malloc(sizeof(struct CLASS)); opslot1.OBJECT->info = CLASS_info; PushSlot(opslot1);	// 187 new, CLASS is to be determined
 StackTop().OBJECT = (jobject) NewArray(StackTop().INT); U1;	// 188 newarray, U1 is to be determined
 StackTop().OBJECT = (jobject)NewArray(StackTop().INT); U2;	// 189 anewarray, U2 is to be determined
-StackTop().INT = (jarray)(StackTop().OBJECT)->length;	// 190 arraylength
+StackTop().INT = ((jarray)(StackTop().OBJECT))->length;	// 190 arraylength
 191
-192
-if(StackTop().OBJECT != jnull && StackTop().OBJECT->info == &CLASS_info) StackTop().INT = 1; else StackTop.INT = 0;	// 193 instanceof
+;	// 192 checkcast
+if(StackTop().OBJECT != jnull && StackTop().OBJECT->info == &CLASS_info) StackTop().INT = 1; else StackTop().INT = 0;	// 193 instanceof, CLASS is to be determined
 TODO	// 194 monitorenter, I'll handle with multithread later
 TODO	// 195 monitorexit
 TODO	// 196 wide

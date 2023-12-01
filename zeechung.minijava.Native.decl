@@ -1,0 +1,61 @@
+jlong zeechung_d_minijava_d_Native_getPtr_l_Ljava_d_lang_d_Object_s__r_J(jobject obj);
+
+jobject zeechung_d_minijava_d_Native_copyArray_l__a_CII_r__a_C(jobject arr, jint from, jint to);
+
+jobject zeechung_d_minijava_d_Native_copyArray_l__a_CI_r__a_C(jobject arr, jint len);
+
+jint zeechung_d_minijava_d_Native_copyArray_l__a_CI_a_CII_r_V(jobject src, jint srcPos, jobject dest, jint destPos, jint len);
+
+jint zeechung_d_minijava_d_Native_exit_l_I_r_V(jint code);
+
+jlong zeechung_d_minijava_d_Native_currentTimeMillis_l__r_J();
+
+jlong zeechung_d_minijava_d_Native_nanoTime_l__r_J();
+        
+jobject zeechung_d_minijava_d_Native_input_l__r_Ljava_d_lang_d_String_s_();
+
+jint zeechung_d_minijava_d_Native_print_l_Ljava_d_lang_d_String_s__r_V(jobject str);
+
+jobject zeechung_d_minijava_d_Native_toString_l_I_r_Ljava_d_lang_d_String_s_(jint i);
+
+jobject zeechung_d_minijava_d_Native_toString_l_J_r_Ljava_d_lang_d_String_s_(jlong l);
+
+jobject zeechung_d_minijava_d_Native_toString_l_F_r_Ljava_d_lang_d_String_s_(jfloat f);
+
+jobject zeechung_d_minijava_d_Native_toString_l_D_r_Ljava_d_lang_d_String_s_(jdouble d);
+
+jint zeechung_d_minijava_d_Native_maxIntValue_l__r_I();
+
+jint zeechung_d_minijava_d_Native_minIntValue_l__r_I();
+
+jint zeechung_d_minijava_d_Native_intStringSize_l_I_r_I(jint i);
+
+jint zeechung_d_minijava_d_Native_getIntChars_l_II_a_C_r_V(jint i, jint idx, jobject buf);
+
+jlong zeechung_d_minijava_d_Native_maxLongValue_l__r_J();
+
+jlong zeechung_d_minijava_d_Native_minLongValue_l__r_I();
+
+jint zeechung_d_minijava_d_Native_longStringSize_l_J_r_I(jlong l);
+
+jint zeechung_d_minijava_d_Native_getLongChars_l_JI_a_C_r_V(jlong l, jint idx, jobject buf);
+
+jfloat zeechung_d_minijava_d_Native_maxFloatValue_l__r_F();
+
+jfloat zeechung_d_minijava_d_Native_minFloatValue_l__r_I();
+
+jint zeechung_d_minijava_d_Native_floatStringSize_l_F_r_I(jfloat f);
+
+jint zeechung_d_minijava_d_Native_getFloatChars_l_FI_a_C_r_V(jfloat f, jint idx, jobject buf);
+
+jdouble zeechung_d_minijava_d_Native_maxDoubleValue_l__r_D();
+
+jdouble zeechung_d_minijava_d_Native_minDoubleValue_l__r_I();
+
+jint zeechung_d_minijava_d_Native_doubleStringSize_l_D_r_I(jdouble d);
+
+jint zeechung_d_minijava_d_Native_getDoubleChars_l_DI_a_C_r_V(jdouble d, jint idx, jobject buf);
+
+jobject java_d_lang_d_AbstractStringBuilder_toString_l__r_Ljava_d_lang_d_String_s_();
+
+jobject java_d_lang_d_AbstractStringBuilder_toString_l__r_Ljava_d_lang_d_String_s_();

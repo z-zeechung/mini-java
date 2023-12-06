@@ -26,7 +26,7 @@ public class Parser {
 		
 		System.setOut(new PrintStream("log.txt"));
 		
-		String path = "D:\\Codes\\Eclipse\\java coding\\min_jre\\bin\\java\\lang\\Test6.class";
+		String path = "path/to/your/.class";
 		String fileName = new File(path).getName();
 		String folder = new File(path).getParent();
 		
@@ -222,12 +222,12 @@ public class Parser {
 		//System.out.println("int main(){\n"+main+"}");
 	}
 
-	private void parseMagic() {	//½âÎöÄ§Êı
-		idx += 4;	//Ö±½ÓÌø¹ı
+	private void parseMagic() {	//è§£æé­”æ•°
+		idx += 4;	//ç›´æ¥è·³è¿‡
 	}
 
-	private void parseVersionNumber() {	//½âÎö°æ±¾ºÅ
-		idx += 4;	//Ö±½ÓÌø¹ı
+	private void parseVersionNumber() {	//è§£æç‰ˆæœ¬å·
+		idx += 4;	//ç›´æ¥è·³è¿‡
 	}
 	
 	private void parseConstantPool() {

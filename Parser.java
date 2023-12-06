@@ -26,7 +26,7 @@ public class Parser {
 		
 		System.setOut(new PrintStream("log.txt"));
 		
-		String path = "D:\\Codes\\Eclipse\\java coding\\min_jre\\bin\\java\\lang\\HelloWorld.class";
+		String path = "D:\\Codes\\Eclipse\\java coding\\min_jre\\bin\\java\\lang\\Test6.class";
 		String fileName = new File(path).getName();
 		String folder = new File(path).getParent();
 		
@@ -37,6 +37,7 @@ public class Parser {
 			new Parser(Files.readAllBytes(Paths.get(folder+"/"+f)));
 		}
 		
+		//System.out.println(Parser.stringIds);
 		System.out.println(Parser.getCCode());
 	}
 	
@@ -57,7 +58,8 @@ public class Parser {
 		declarations.append("#include <string.h>\n");
 		declarations.append("#include <wchar.h>\n");
 		declarations.append("#include <locale.h>\n");
-		declarations.append("#include <time.h>\n");
+		declarations.append("#include <stdio.h>\n");
+		declarations.append("#include <math.h>\n");
 		main.insert(0, "setlocale(LC_CTYPE, \"\");\n");
 		declarations.append("\n");
 		
@@ -97,7 +99,8 @@ public class Parser {
 		declarations.append("	jarray arr = (jarray)malloc(sizeof(struct "+toCName("zeechung/minijava/Array")+"));\n");
 		declarations.append("	slot* base = (slot*)malloc(sizeof(slot)*length);\n");
 		declarations.append("	arr->base = base;\n");
-		declarations.append("	arr->length = length;\n");
+		declarations.append("	arr->length = length;\n"
+						  + "	arr->info = jnull;\n");
 		declarations.append("	return arr;\n");
 		declarations.append("}\n");
 		declarations.append("\n");
@@ -185,7 +188,7 @@ public class Parser {
 	
 	private int[] impls;
 	
-	private List<String> stringIds = new LinkedList<String>();
+	private static List<String> stringIds = new LinkedList<String>();
 	
 	public Parser(byte[] code) {
 		
@@ -343,7 +346,7 @@ public class Parser {
 					}else if(desc.equals("D")) {
 						codes.append("jdouble"+fullName+" = "+Double.toString(getDouble(valIdx))+";\n");
 					}else if(desc.equals("Ljava/lang/String;")) {
-						codes.append(fullName+" = ToString(L\""+getString(valIdx)+"\");\n");
+						codes.append(fullName+" = ToString(L\""+toCString(getString(valIdx))+"\");\n");
 					}else {
 						codes.append(fullName+" = "+getInt(valIdx)+";\n");
 					}
@@ -477,7 +480,6 @@ public class Parser {
 		int codeLength = nextU4();
 		int initIdx = idx;
 		while(idx-initIdx<codeLength) {
-			try {
 			int op = nextU1();
 			String line = "GOTO_"+(idx-initIdx-1)+": \t"+opCodes.get(op)+"\n";
 			if(op==16 || 
@@ -505,14 +507,14 @@ public class Parser {
 					Object o = constantPool.get(index);
 					if(o instanceof Integer) {
 						type = "INT";
-						value = o.toString() + "f";
+						value = o.toString();
 					}else if(o instanceof Float) {
 						type = "FLOAT";
-						value = o.toString();
+						value = o.toString() + "f";
 					}else {
 						type = "OBJECT";
 						String str = (String) constantPool.get(((int[])o)[0]);
-						value = str==null?"jnull":"ToString(L\""+str+"\")";
+						value = str==null?"jnull":"ToString(L\""+toCString(str)+"\")";
 					}
 				}else {
 					Object o = constantPool.get(nextU2());
@@ -567,30 +569,130 @@ public class Parser {
 				}
 				line = line.replace("TYPE", desc).replace("FIELD", name).replace("CLASS", toCName(clazz));
 			}else if(op>=182&&op<=185) {	//method invocation
+				//182 invokevirtual
+				//183 invokespecial
+				//184 invokestatic
+				//185 invokeinterface
+				String l = "opslot1.RE_TYPE_1 = InvokeMethod(OBJECT.OBJ2ECT, FUNC_ID, RE_TYPE_2(*)(ARGS_1), ARGS_2);";
+				if(op==184||op==183) l = "opslot1.RE_TYPE_1 = CLASS_FUNC(ARGS_2);";
+				
+				int index = nextU2();
+				if(op==185) nextU2();
+				int[] classAndNameAndType = (int[])constantPool.get(index);
+				int[] nameAndType = (int[])constantPool.get(classAndNameAndType[1]);
+				String clazz = getClass(classAndNameAndType[0]);
+				String name = (String) constantPool.get(nameAndType[0]);
+				String type = (String) constantPool.get(nameAndType[1]);
+				
+				int funcID = 0;
+				String fullFuncName = "";
 				if(op!=184) {
-					int index = nextU2();
-					if(op==185) nextU2();
-					String l = "opslot1.TYPE_RE = InvokeMethod(StackTop().OBJECT, INDEX, TYPE_FUNC, ARGS); DecStack(ARG_COUNT); PushSlot(opslot1);";
-					int[] nat = ((int[])constantPool.get(((int[])constantPool.get(index))[1]));
-					String name = (String) constantPool.get(nat[0]);
-					String type = (String) constantPool.get(nat[1]);
-					name+=type;
-					if(!stringIds.contains(name)) stringIds.add(name);
-					l = l.replace("INDEX", Integer.toString(stringIds.indexOf(name)));
-					String[] decoded = decodeMethodDesc(type, false);
-					l = l.replace("TYPE_RE", decoded[0]).replace("TYPE_FUNC", decoded[1]).replace("ARGS", decoded[2]).replace("ARG_COUNT", decoded[3]);
-					line = line.replace("TO BE FILLED", l);
-				}else {
-					int index = nextU2();
-					String l = "opslot1.TYPE_RE = CLASS_NAME(ARGS); DecStack(ARG_COUNT); PushSlot(opslot1);";
-					int[] nat = ((int[])constantPool.get(((int[])constantPool.get(index))[1]));
-					String name = (String) constantPool.get(nat[0]);
-					String type = (String) constantPool.get(nat[1]);
-					name+=type;
-					String[] decoded = decodeMethodDesc(type, true);
-					l = l.replace("TYPE_RE", decoded[0]).replace("ARGS", decoded[2]).replace("NAME", toCName(name)).replace("ARG_COUNT", decoded[3]).replace("CLASS", toCName((String)constantPool.get((int)constantPool.get(((int[])constantPool.get(index))[0]))));
-					line = line.replace("TO BE FILLED", l);
+					fullFuncName = name+type;
+					if(!stringIds.contains(fullFuncName)) stringIds.add(fullFuncName);
+					funcID = stringIds.indexOf(fullFuncName);
 				}
+				
+				type = type.substring(1);
+				String[] argTypeAndReType = type.split("\\)");
+				String argType = argTypeAndReType[0];
+				String reType = argTypeAndReType[1];
+				
+				boolean isVoid = false;
+				
+				String reType1 = "", reType2 = "";
+				if(reType.length()!=1) {
+					reType1 = "OBJECT";
+					reType2 = "jobject";
+				}else{
+					char c = reType.charAt(0);
+					if(c=='V') {
+						isVoid = true;
+						reType1 = "INT";
+						reType2 = "jint";
+					}else if(c=='B') {
+						reType1 = "BYTE";
+						reType2 = "jbyte";
+					}else if(c=='S') {
+						reType1 = "SHORT";
+						reType2 = "jshort";
+					}else if(c=='I') {
+						reType1 = "INT";
+						reType2 = "jint";
+					}else if(c=='J') {
+						reType1 = "LONG";
+						reType2 = "jlong";
+					}else if(c=='F') {
+						reType1 = "FLOAT";
+						reType2 = "jfloat";
+					}else if(c=='D') {
+						reType1 = "DOUBLE";
+						reType2 = "jdouble";
+					}else if(c=='C') {
+						reType1 = "CHAR";
+						reType2 = "jchar";
+					}else if(c=='Z') {
+						reType1 = "BOOLEAN";
+						reType2 = "jboolean";
+					}
+				}
+				
+				argType = argType.replaceAll("L.+?;", "L").replaceAll("\\[.", "L");
+				if(op!=184) argType = "L"+argType;
+				StringBuffer args1 = new StringBuffer();
+				for(char c : argType.toCharArray()) {
+					if(c=='L') {
+						args1.append("jobject,");
+					}else if(c=='B') {
+						args1.append("jbyte,");
+					}else if(c=='S') {
+						args1.append("jshort,");
+					}else if(c=='I') {
+						args1.append("jint,");
+					}else if(c=='J') {
+						args1.append("jlong,");
+					}else if(c=='F') {
+						args1.append("jfloat,");
+					}else if(c=='D') {
+						args1.append("jdouble,");
+					}else if(c=='C') {
+						args1.append("jchar,");
+					}else if(c=='Z') {
+						args1.append("jboolean,");
+					}
+				}
+				if(args1.length()>0) args1.setCharAt(args1.length()-1, ' ');
+				
+				StringBuffer args2 = new StringBuffer();
+				for(int i = argType.length()-1;i>=0;i--) {
+					String t  = "";
+					switch(argType.charAt(argType.length()-i-1)) {
+					case 'L': t = "OBJ2ECT"; break;
+					case 'B': t = "BYTE"; break;
+					case 'S': t = "SHORT"; break;
+					case 'I': t = "INT"; break;
+					case 'J': t = "LONG"; break;
+					case 'F': t = "FLOAT"; break;
+					case 'D': t = "DOUBLE"; break;
+					case 'C': t = "CHAR"; break;
+					case 'Z': t = "BOOLEAN"; break;
+					}
+					args2.append("StackOffset("+i+")."+t+",");
+				}
+				if(args2.length()>0) args2.setCharAt(args2.length()-1, ' ');
+				
+				String object = "StackOffset("+(argType.length()-1)+")";
+				
+				if(op!=184&&op!=183) {
+					l = l.replace("OBJECT", object).replace("RE_TYPE_1", reType1).replace("FUNC_ID", String.valueOf(funcID))
+						 .replace("RE_TYPE_2", reType2).replace("ARGS_1", args1).replace("ARGS_2", args2).replace("OBJ2ECT", "OBJECT");
+				}else {
+					l = l.replace("RE_TYPE_1", reType1).replace("CLASS", toCName(clazz)).replace("FUNC", toCName(name+"("+type)).replace("ARGS_2", args2).replace("OBJ2ECT", "OBJECT");
+				}
+				
+				l += "DecStack("+argType.length()+");";
+				if(!isVoid) l += "PushSlot(opslot1);";
+				
+				line = line.replace("TO BE FILLED", l);
 			}else if(op==187) {	//new
 				int index = nextU2();
 				line = line.replace("CLASS", toCName(getClass(index)));
@@ -614,7 +716,6 @@ public class Parser {
 				}
 			}
 			code.append(line);
-			} catch(Exception e) {}
 		}
 		code.append("}\n");
 		
@@ -702,9 +803,11 @@ public class Parser {
 		return false;
 	}
 	
-	private String[] decodeMethodDesc(String desc, boolean isStatic) {	//return TYPE_RE, TYPE_FUNC, ARGS, ARGS_COUNT
+	private String[] decodeMethodDesc(String desc, boolean isStatic) {	//return TYPE_RE, TYPE_FUNC, ARGS, ARGS_COUNT, isVoid
 		String varDesc = desc.substring(desc.indexOf('(')+1, desc.indexOf(')'));
 		String reDesc = desc.substring(desc.indexOf(')')+1);
+		
+		String isVoid = "";
 		
 		String typeRe = "";
 		if(reDesc.length()!=1) {
@@ -719,7 +822,10 @@ public class Parser {
 			else if(t=='D') typeRe = "DOUBLE";
 			else if(t=='C') typeRe = "CHAR";
 			else if(t=='Z') typeRe = "BOOLEAN";
-			else typeRe = "INT";
+			else {
+				typeRe = "INT";
+				isVoid = "V";
+			}
 		}
 		
 		String typeFunc = "RE(*)(ARGS)";
@@ -784,7 +890,7 @@ public class Parser {
 		
 		if(argsCount>=1) varArgs.setCharAt(varArgs.length()-1, ' ');
 		
-		return new String[] {typeRe, typeFunc, varArgs.toString(), ""+argsCount};
+		return new String[] {typeRe, typeFunc, varArgs.toString(), ""+argsCount, isVoid};
 	}
 	
 	private String decodeMethodDesc(String name, String desc, boolean isStatic) {
@@ -926,5 +1032,9 @@ public class Parser {
 	private static String toCName(String jName) {
 		return jName.replace("_", "_u_").replace("/", "_d_").replace(";", "_s_").replace("(", "_l_").replace(")", "_r_")
 				.replace("<", "_ls_").replace(">", "_rs_").replace("\"", "_c_").replace("[", "_a_");
+	}
+	
+	private static String toCString(String str) {
+		return str.replace("\n", "\\n").replace("\r", "\\r");
 	}
 }

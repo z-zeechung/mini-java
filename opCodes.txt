@@ -77,60 +77,60 @@ PopSlot(local0);	// 75 astore_0
 PopSlot(local1);	// 76 astore_1
 PopSlot(local2);	// 77 astore_2
 PopSlot(local3);	// 78 astore_3
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 79 iastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 80 lastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 81 fastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 82 dastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 83 aastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 84 bastore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 85 castore
-PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot1.OBJECT)).base[opslot2.INT] = opslot3;	// 86 sastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot3.OBJECT)).base[opslot2.INT] = opslot1;	// 79 iastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot3.OBJECT)).base[opslot2.INT] = opslot1;	// 80 lastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot3.OBJECT)).base[opslot2.INT] = opslot1;	// 81 fastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot3.OBJECT)).base[opslot2.INT] = opslot1;	// 82 dastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot3.OBJECT)).base[opslot2.INT] = opslot1;	// 83 aastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot3.OBJECT)).base[opslot2.INT] = opslot1;	// 84 bastore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot3.OBJECT)).base[opslot2.INT] = opslot1;	// 85 castore
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); (*(jarray)(opslot3.OBJECT)).base[opslot2.INT] = opslot1;	// 86 sastore
 PopSlot(opslot1);	// 87 pop
 TODO	// 88 pop2
 PopSlot(opslot1); PushSlot(opslot1); PushSlot(opslot1);	// 89 dup
-PopSlot(opslot2); PopSlot(opslot1); PushSlot(opslot1); PushSlot(opslot2); PushSlot(opslot1);	// 90 dup_x1
-PopSlot(opslot3); PopSlot(opslot2); PopSlot(opslot1); PushSlot(opslot1); PushSlot(opslot3); PushSlot(opslot2); PushSlot(opslot1);	// 91 dup_x2
-PopSlot(opslot2); PopSlot(opslot1); PushSlot(opslot2); PushSlot(opslot1); PushSlot(opslot2); PushSlot(opslot1);	// 92 dup2
-PopSlot(opslot3); PopSlot(opslot2); PopSlot(opslot1); PushSlot(opslot2); PushSlot(opslot1); PushSlot(opslot3); PushSlot(opslot2); PushSlot(opslot1);	// 93 dup2x1
-PopSlot(opslot4); PopSlot(opslot3); PopSlot(opslot2); PopSlot(opslot1); PushSlot(opslot2); PushSlot(opslot1); PushSlot(opslot4); PushSlot(opslot3); PushSlot(opslot2); PushSlot(opslot1);	// 94 dup2_x2
+PopSlot(opslot1); PopSlot(opslot2); PushSlot(opslot1); PushSlot(opslot2); PushSlot(opslot1);	// 90 dup_x1
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); PushSlot(opslot1); PushSlot(opslot3); PushSlot(opslot2); PushSlot(opslot1);	// 91 dup_x2
+PopSlot(opslot1); PopSlot(opslot2); PushSlot(opslot2); PushSlot(opslot1); PushSlot(opslot2); PushSlot(opslot1);	// 92 dup2
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); PushSlot(opslot2); PushSlot(opslot1); PushSlot(opslot3); PushSlot(opslot2); PushSlot(opslot1);	// 93 dup2x1
+PopSlot(opslot1); PopSlot(opslot2); PopSlot(opslot3); PopSlot(opslot4); PushSlot(opslot2); PushSlot(opslot1); PushSlot(opslot4); PushSlot(opslot3); PushSlot(opslot2); PushSlot(opslot1);	// 94 dup2_x2
 opslot1 = StackTop(); StackTop() = StackOffset(1); StackOffset(1) = opslot1;	// 95 swap
 StackOffset(1).INT += StackTop().INT; DecStack(1);	// 96 iadd
 StackOffset(1).LONG += StackTop().LONG; DecStack(1);	// 97 ladd
 StackOffset(1).FLOAT += StackTop().FLOAT; DecStack(1);	// 98 fadd
 StackOffset(1).DOUBLE += StackTop().DOUBLE; DecStack(1);	// 99 dadd
-StackOffset(1).INT = StackTop().INT - StackOffset(1).INT; DecStack(1);	// 100 isub
-StackOffset(1).LONG = StackTop().LONG - StackOffset(1).LONG; DecStack(1);	// 101 lsub
-StackOffset(1).FLOAT = StackTop().FLOAT - StackOffset(1).FLOAT; DecStack(1);	// 102 fsub
-StackOffset(1).DOUBLE = StackTop().DOUBLE - StackOffset(1).DOUBLE; DecStack(1);	// 103 dsub
+StackOffset(1).INT = StackOffset(1).INT - StackOffset(0).INT; DecStack(1);	// 100 isub
+StackOffset(1).LONG = StackOffset(1).LONG - StackOffset(0).LONG; DecStack(1);	// 101 lsub
+StackOffset(1).FLOAT = StackOffset(1).FLOAT - StackOffset(0).FLOAT; DecStack(1);	// 102 fsub
+StackOffset(1).DOUBLE = StackOffset(1).DOUBLE - StackOffset(0).DOUBLE; DecStack(1);	// 103 dsub
 StackOffset(1).INT *= StackTop().INT; DecStack(1);	// 104 imul
 StackOffset(1).LONG *= StackTop().LONG; DecStack(1);	// 105 lmul
 StackOffset(1).FLOAT *= StackTop().FLOAT; DecStack(1);	// 106 fmul
 StackOffset(1).DOUBLE *= StackTop().DOUBLE; DecStack(1);	// 107 dmul
-StackOffset(1).INT = StackTop().INT / StackOffset(1).INT; DecStack(1);	// 108 idiv
-StackOffset(1).LONG = StackTop().LONG / StackOffset(1).LONG; DecStack(1);	// 109 ldiv
-StackOffset(1).FLOAT = StackTop().FLOAT / StackOffset(1).FLOAT; DecStack(1);	// 110 fdiv
-StackOffset(1).DOUBLE = StackTop().DOUBLE / StackOffset(1).DOUBLE; DecStack(1);	// 111 ddiv
-StackOffset(1).INT = StackTop().INT % StackOffset(1).INT; DecStack(1);	// 112 irem
-StackOffset(1).LONG = StackTop().LONG % StackOffset(1).LONG; DecStack(1);	// 113 lrem
-StackOffset(1).FLOAT = StackTop().FLOAT % StackOffset(1).FLOAT; DecStack(1);	// 114 frem
-StackOffset(1).DOUBLE = StackTop().DOUBLE % StackOffset(1).DOUBLE; DecStack(1);	// 115 drem
+StackOffset(1).INT = StackOffset(1).INT / StackOffset(0).INT; DecStack(1);	// 108 idiv
+StackOffset(1).LONG = StackOffset(1).LONG / StackOffset(0).LONG; DecStack(1);	// 109 ldiv
+StackOffset(1).FLOAT = StackOffset(1).FLOAT / StackOffset(0).FLOAT; DecStack(1);	// 110 fdiv
+StackOffset(1).DOUBLE = StackOffset(1).DOUBLE / StackOffset(0).DOUBLE; DecStack(1);	// 111 ddiv
+StackOffset(1).INT = StackOffset(1).INT % StackOffset(0).INT; DecStack(1);	// 112 irem
+StackOffset(1).LONG = StackOffset(1).LONG % StackOffset(0).LONG; DecStack(1);	// 113 lrem
+StackOffset(1).FLOAT = fmod(StackOffset(1).FLOAT, StackOffset(0).FLOAT); DecStack(1);	// 114 frem
+StackOffset(1).DOUBLE = fmod(StackOffset(1).DOUBLE, StackOffset(0).DOUBLE); DecStack(1);	// 115 drem
 StackTop().INT = -StackTop().INT;	// 116 ineg
 StackTop().LONG = -StackTop().LONG;	// 117 lneg
 StackTop().FLOAT = -StackTop().FLOAT;	// 118 fneg
 StackTop().DOUBLE = -StackTop().DOUBLE;	// 119 dneg
-StackOffset(1).INT = StackTop().INT << StackOffset(1).INT; DecStack(1);	// 120 ishl
-StackOffset(1).LONG = StackTop().LONG << StackOffset(1).INT; DecStack(1);	// 121 lshl
-StackOffset(1).INT = StackTop().INT >> StackOffset(1).INT; DecStack(1);	// 122 ishr, I'm not sure wether this will perform arithmetic shift or logical shift. most compilers perform arithmetic shift. TODO: figure out how to limit this behavior
-StackOffset(1).LONG = StackTop().LONG >> StackOffset(1).INT; DecStack(1);	// 123 lshr
-StackOffset(1).INT = (unsigned long int)StackTOP().INT >> StackOffset(1).INT; DecStack(1);	// 124 iushr, I'm quiet sure this would perform logical shift
-StackOffset(1).LONG = (unsigned long long)StackTOP().LONG >> StackOffset(1).INT; DecStack(1);	// 125 lushr
+StackOffset(1).INT = StackOffset(1).INT << StackOffset(0).INT; DecStack(1);	// 120 ishl
+StackOffset(1).LONG = StackOffset(1).LONG << StackOffset(0).INT; DecStack(1);	// 121 lshl
+StackOffset(1).INT = StackOffset(1).INT >> StackOffset(0).INT; DecStack(1);	// 122 ishr, I'm not sure wether this will perform arithmetic shift or logical shift. most compilers perform arithmetic shift. TODO: figure out how to limit this behavior
+StackOffset(1).LONG = StackOffset(1).LONG >> StackOffset(0).INT; DecStack(1);	// 123 lshr
+StackOffset(1).INT = (unsigned long int)StackOffset(1).INT >> StackOffset(0).INT; DecStack(1);	// 124 iushr, I'm quiet sure this would perform logical shift
+StackOffset(1).LONG = (unsigned long long)StackOffset(1).LONG >> StackOffset(0).INT; DecStack(1);	// 125 lushr
 StackOffset(1).INT &= StackTop().INT; DecStack(1);	// 126 iand
 StackOffset(1).LONG &= StackTop().LONG; DecStack(1);	// 127 land
 StackOffset(1).INT |= StackTop().INT; DecStack(1);	// 128 ior
 StackOffset(1).LONG |= StackTop().LONG; DecStack(1);	// 129 lor
 StackOffset(1).INT ^= StackTop().INT; DecStack(1);	// 130 ixor
 StackOffset(1).LONG ^= StackTop().LONG; DecStack(1);	// 131 lxor
-localU1_1.INT += U1_2;	// 132 iinc, U1s are to be determined
+localU1_1.INT += (jbyte)U1_2;	// 132 iinc, U1s are to be determined
 StackTop().LONG = (jlong) StackTop().INT;	// 133 i2l
 StackTop().FLOAT = (jfloat) StackTop().INT;	// 134 i2f
 StackTop().DOUBLE = (jdouble) StackTop().INT;	// 135 i2d
@@ -146,25 +146,25 @@ StackTop().FLOAT = (jfloat) StackTop().DOUBLE;	// 144 d2f
 StackTop().BYTE = (jbyte) StackTop().INT;	// 145 i2b
 StackTop().CHAR = (jchar) StackTop().INT;	// 146 i2c
 StackTop().SHORT = (jshort) StackTop().INT;	// 147 i2s
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.LONG > opslot2.LONG) opslot3.INT = 1; else if(opslot1.LONG == opslot2.LONG) opslot3.INT = 0; else opslot3.INT = -1; PushSlot(opslot3);	// 148 lcmp
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.FLOAT==opslot2.FLOAT) opslot3.INT = 0; else if(opslot1.FLOAT>opslot2.FLOAT) opslot3.INT = 1;else opslot3.INT = -1; PushSlot(opslot3);	// 149 fcmpl
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.FLOAT==opslot2.FLOAT) opslot3.INT = 0; else if(opslot1.FLOAT<opslot2.FLOAT) opslot3.INT = -1;else opslot3.INT = 1; PushSlot(opslot3);	// 150 dcmpg
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.DOUBLE==opslot2.DOUBLE) opslot3.INT = 0; else if(opslot1.DOUBLE>opslot2.DOUBLE) opslot3.INT = 1;else opslot3.INT = -1; PushSlot(opslot3);	// 151 dcmpl
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.DOUBLE==opslot2.DOUBLE) opslot3.INT = 0; else if(opslot1.DOUBLE<opslot2.DOUBLE) opslot3.INT = -1;else opslot3.INT = 1; PushSlot(opslot3);	// 152 dcmpg
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.LONG > opslot2.LONG) opslot3.INT = 1; else if(opslot1.LONG == opslot2.LONG) opslot3.INT = 0; else opslot3.INT = -1; PushSlot(opslot3);	// 148 lcmp
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.FLOAT==opslot2.FLOAT) opslot3.INT = 0; else if(opslot1.FLOAT>opslot2.FLOAT) opslot3.INT = 1;else opslot3.INT = -1; PushSlot(opslot3);	// 149 fcmpl
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.FLOAT==opslot2.FLOAT) opslot3.INT = 0; else if(opslot1.FLOAT<opslot2.FLOAT) opslot3.INT = -1;else opslot3.INT = 1; PushSlot(opslot3);	// 150 dcmpg
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.DOUBLE==opslot2.DOUBLE) opslot3.INT = 0; else if(opslot1.DOUBLE>opslot2.DOUBLE) opslot3.INT = 1;else opslot3.INT = -1; PushSlot(opslot3);	// 151 dcmpl
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.DOUBLE==opslot2.DOUBLE) opslot3.INT = 0; else if(opslot1.DOUBLE<opslot2.DOUBLE) opslot3.INT = -1;else opslot3.INT = 1; PushSlot(opslot3);	// 152 dcmpg
 PopSlot(opslot1); if(opslot1.INT == 0) goto GOTO_U2;	// 153 ifeq, U2 is to be determined
 PopSlot(opslot1); if(opslot1.INT != 0) goto GOTO_U2;	// 154 ifne, U2 is to be determined
 PopSlot(opslot1); if(opslot1.INT < 0) goto GOTO_U2;	// 155 iflt, U2 is to be determined
-PopSlot(opslot1); if(opslot1.INT <= 0) goto GOTO_U2;	// 156 ifle, U2 is to be determined
+PopSlot(opslot1); if(opslot1.INT >= 0) goto GOTO_U2;	// 156 ifge, U2 is to be determined
 PopSlot(opslot1); if(opslot1.INT > 0) goto GOTO_U2;	// 157 ifgt, U2 is to be determined
-PopSlot(opslot1); if(opslot1.INT >= 0) goto GOTO_U2;	// 158 ifge, U2 is to be determined
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.INT == opslot2.INT) goto GOTO_U2;	// 159 if_icmpeq, U2 is to be determined
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.INT != opslot2.INT) goto GOTO_U2;	// 160 if_icmpne, U2 is to be determined
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.INT < opslot2.INT) goto GOTO_U2;	// 161 if_icmplt, U2 is to be determined
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.INT <= opslot2.INT) goto GOTO_U2;	// 162 if_icmple, U2 is to be determined
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.INT > opslot2.INT) goto GOTO_U2;	// 163 if_icmpgt, U2 is to be determined
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.INT >= opslot2.INT) goto GOTO_U2;	// 164 if_icmpge, U2 is to be determined
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.OBJECT == opslot2.OBJECT) goto GOTO_U2;	// 165 if_acmpeq, U2 is to be determined
-PopSlot(opslot1); PopSlot(opslot2); if(opslot1.OBJECT != opslot2.OBJECT) goto GOTO_U2;	// 166 if_acmpne, U2 is to be determined
+PopSlot(opslot1); if(opslot1.INT <= 0) goto GOTO_U2;	// 158 ifle, U2 is to be determined
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.INT == opslot2.INT) goto GOTO_U2;	// 159 if_icmpeq, U2 is to be determined
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.INT != opslot2.INT) goto GOTO_U2;	// 160 if_icmpne, U2 is to be determined
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.INT < opslot2.INT) goto GOTO_U2;	// 161 if_icmplt, U2 is to be determined
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.INT >= opslot2.INT) goto GOTO_U2;	// 162 if_icmpge, U2 is to be determined
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.INT > opslot2.INT) goto GOTO_U2;	// 163 if_icmpgt, U2 is to be determined
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.INT <= opslot2.INT) goto GOTO_U2;	// 164 if_icmple, U2 is to be determined
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.OBJECT == opslot2.OBJECT) goto GOTO_U2;	// 165 if_acmpeq, U2 is to be determined
+PopSlot(opslot2); PopSlot(opslot1); if(opslot1.OBJECT != opslot2.OBJECT) goto GOTO_U2;	// 166 if_acmpne, U2 is to be determined
 goto GOTO_U2;	// 167 goto, U2 is to be determined
 PushData(U2, INT);	// 168 jsr, U2 is to be determined
 TODO	// 169 ret
@@ -176,16 +176,16 @@ PopSlot(opslot1); return opslot1.FLOAT;	// 174 dreturn
 PopSlot(opslot1); return opslot1.DOUBLE;	// 175 dreturn
 PopSlot(opslot1); return opslot1.OBJECT;	// 176 areturn
 return 0;	// 177 return
-StackTop().TYPE = FIELD;	// 178 getstatic, FIELD and TYPE are to be determined
+opslot1.TYPE = FIELD; PushSlot(opslot1);	// 178 getstatic, FIELD and TYPE are to be determined
 FIELD = StackTop().TYPE; DecStack(1);	// 179 putstatic, FIELD and TYPE are to be determined
 StackTop().TYPE = ((CLASS)(StackTop().OBJECT))->FIELD;	// 180 getfield, CLASS, FIELD and TYPE are to be determined
-((CLASS)(StackTop().OBJECT))->FIELD = StackOffset(1).TYPE; DecStack(2);	// 181 putfield, CLASS, FIELD and TYPE are to be determined
+((CLASS)(StackOffset(1).OBJECT))->FIELD = StackTop().TYPE; DecStack(2);	// 181 putfield, CLASS, FIELD and TYPE are to be determined
 TO BE FILLED	// 182 invokevirtual
 TO BE FILLED	// 183 invokespecial
 TO BE FILLED	// 184 invokestatic
 TO BE FILLED	// 185 invokeinterface
 186
-opslot1.OBJECT = (jobject)malloc(sizeof(struct CLASS)); opslot1.OBJECT->info = CLASS_info; PushSlot(opslot1);	// 187 new, CLASS is to be determined
+opslot1.OBJECT = (jobject)malloc(sizeof(struct CLASS)); memset(opslot1.OBJECT, 0, sizeof(struct CLASS)); opslot1.OBJECT->info = CLASS_info; PushSlot(opslot1);	// 187 new, CLASS is to be determined
 StackTop().OBJECT = (jobject) NewArray(StackTop().INT); U1;	// 188 newarray, U1 is to be determined
 StackTop().OBJECT = (jobject)NewArray(StackTop().INT); U2;	// 189 anewarray, U2 is to be determined
 StackTop().INT = ((jarray)(StackTop().OBJECT))->length;	// 190 arraylength

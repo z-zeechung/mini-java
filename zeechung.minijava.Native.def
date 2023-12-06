@@ -4,11 +4,12 @@ jlong zeechung_d_minijava_d_Native_getPtr_l_Ljava_d_lang_d_Object_s__r_J(jobject
 
 jobject zeechung_d_minijava_d_Native_copyArray_l__a_CII_r__a_C(jobject arr, jint from, jint to){
 	jarray newArr = (jarray)malloc(sizeof(struct zeechung_d_minijava_d_Array));
-	jchar* chars = (char*)malloc(sizeof(jchar)*(to-from));
-	memcpy(chars, ((jarray)arr)->base, to-from);
+	slot* chars = (slot*)malloc(sizeof(slot)*(to-from));
+	memcpy(chars, ((jarray)arr)->base, sizeof(slot)*(to-from));
 	newArr->base = chars;
 	newArr->info = jnull;
-	return newArr;
+	newArr->length = to-from;
+	return (jobject)newArr;
 }
 
 jobject zeechung_d_minijava_d_Native_copyArray_l__a_CI_r__a_C(jobject arr, jint len){
@@ -16,17 +17,14 @@ jobject zeechung_d_minijava_d_Native_copyArray_l__a_CI_r__a_C(jobject arr, jint 
 }
 
 jint zeechung_d_minijava_d_Native_copyArray_l__a_CI_a_CII_r_V(jobject src, jint srcPos, jobject dest, jint destPos, jint len){
-	memcpy((((jarray)dest)+destPos)->base, (((jarray)src)+srcPos)->base, len);
+	memcpy((((jarray)dest)->base + destPos), (((jarray)src)->base + srcPos), len * sizeof(slot));
 }
 
 jint zeechung_d_minijava_d_Native_exit_l_I_r_V(jint code){
 	exit(code);
 }
 
-jlong zeechung_d_minijava_d_Native_currentTimeMillis_l__r_J(){
-	time_t currentTime = time(NULL);
-    	return (jlong)currentTime * 1000;
-}
+jlong zeechung_d_minijava_d_Native_currentTimeMillis_l__r_J(){}
 
 jlong zeechung_d_minijava_d_Native_nanoTime_l__r_J(){}
 
@@ -124,17 +122,25 @@ jobject zeechung_d_minijava_d_Native_toString_l_D_r_Ljava_d_lang_d_String_s_(jdo
 	return string;
 }
 
-jint zeechung_d_minijava_d_Native_maxIntValue_l__r_I(){}
+jint zeechung_d_minijava_d_Native_maxIntValue_l__r_I(){
+	return 2147483647;
+}
 
-jint zeechung_d_minijava_d_Native_minIntValue_l__r_I(){}
+jint zeechung_d_minijava_d_Native_minIntValue_l__r_I(){
+	return -2147483647;
+}
 
 jint zeechung_d_minijava_d_Native_intStringSize_l_I_r_I(jint i){}
 
 jint zeechung_d_minijava_d_Native_getIntChars_l_II_a_C_r_V(jint i, jint idx, jobject buf){}
 
-jlong zeechung_d_minijava_d_Native_maxLongValue_l__r_J(){}
+jlong zeechung_d_minijava_d_Native_maxLongValue_l__r_J(){
+	return 9223372036854775807L;
+}
 
-jlong zeechung_d_minijava_d_Native_minLongValue_l__r_I(){}
+jlong zeechung_d_minijava_d_Native_minLongValue_l__r_I(){
+	return -9223372036854775807L;
+}
 
 jint zeechung_d_minijava_d_Native_longStringSize_l_J_r_I(jlong l){}
 

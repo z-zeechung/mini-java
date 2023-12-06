@@ -73,6 +73,28 @@ abstract class AbstractStringBuilder {
     public AbstractStringBuilder append(Object obj) {
         return append(String.valueOf(obj));
     }
+    
+    public AbstractStringBuilder append(String str) {
+        if (str == null)
+            return appendNull();
+        int len = str.length();
+        ensureCapacityInternal(count + len);
+        str.getChars(0, len, value, count);
+        count += len;
+        return this;
+    }
+    
+    private AbstractStringBuilder appendNull() {
+        int c = count;
+        ensureCapacityInternal(c + 4);
+        final char[] value = this.value;
+        value[c++] = 'n';
+        value[c++] = 'u';
+        value[c++] = 'l';
+        value[c++] = 'l';
+        count = c;
+        return this;
+    }
  
     public AbstractStringBuilder append(char[] str) {
         int len = str.length;
@@ -115,58 +137,22 @@ abstract class AbstractStringBuilder {
     }
  
     public AbstractStringBuilder append(int i) {
-        if (i == Native.minIntValue()) {
-            append("-2147483648");
-            return this;
-        }
-        int appendedLength = (i < 0) ? Native.intStringSize(-i) + 1
-                                     : Native.intStringSize(i);
-        int spaceNeeded = count + appendedLength;
-        ensureCapacityInternal(spaceNeeded);
-        Native.getIntChars(i, spaceNeeded, value);
-        count = spaceNeeded;
+        append(String.valueOf(i));
         return this;
     }
  
     public AbstractStringBuilder append(long l) {
-        if (l == Native.minLongValue()) {
-            append("-9223372036854775808");
-            return this;
-        }
-        int appendedLength = (l < 0) ? Native.longStringSize(-l) + 1
-                                     : Native.longStringSize(l);
-        int spaceNeeded = count + appendedLength;
-        ensureCapacityInternal(spaceNeeded);
-        Native.getLongChars(l, spaceNeeded, value);
-        count = spaceNeeded;
+    	append(String.valueOf(l));
         return this;
     }
  
     public AbstractStringBuilder append(float f) {
-        if (f == Native.minFloatValue()) {
-        	String.valueOf(Native.minFloatValue());
-            return this;
-        }
-        int appendedLength = (f < 0) ? Native.floatStringSize(-f) + 1
-                                     : Native.floatStringSize(f);
-        int spaceNeeded = count + appendedLength;
-        ensureCapacityInternal(spaceNeeded);
-        Native.getFloatChars(f, spaceNeeded, value);
-        count = spaceNeeded;
+    	append(String.valueOf(f));
         return this;
     }
  
     public AbstractStringBuilder append(double d) {
-        if (d == Native.minDoubleValue()) {
-        	String.valueOf(Native.minDoubleValue());
-            return this;
-        }
-        int appendedLength = (d < 0) ? Native.doubleStringSize(-d) + 1
-                                     : Native.doubleStringSize(d);
-        int spaceNeeded = count + appendedLength;
-        ensureCapacityInternal(spaceNeeded);
-        Native.getDoubleChars(d, spaceNeeded, value);
-        count = spaceNeeded;
+    	append(String.valueOf(d));
         return this;
     } 
     
